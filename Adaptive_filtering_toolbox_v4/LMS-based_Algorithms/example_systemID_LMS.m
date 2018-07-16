@@ -75,6 +75,8 @@ figure,
 plot(1:K,10*log10(MSE_av),'-k');
 title('Learning Curve for MSE');
 xlabel('Number of iterations, k'); ylabel('MSE [dB]');
+grid on;
+grid minor
 
 figure,
 plot(1:K,10*log10(MSEmin_av),'-k');

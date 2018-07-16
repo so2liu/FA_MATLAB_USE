@@ -22,7 +22,7 @@
 
 
 %   Definitions:
-ensemble      = 200;                          % number of realizations within the ensemble
+ensemble      = 100;                          % number of realizations within the ensemble
 K             = 10000;                         % number of iterations
 Ksim          = 400;                          % number of iterations used to simulate the resulting system
 H             = [1.1 + j*0.5, 0.1-j*0.3, -0.2-j*0.1]; % Channel taps
@@ -123,5 +123,10 @@ xlabel('in-phase');
 ylabel('quadrature-phase');
 
 figure(4);
-semilogy(1:K-delay,abs(MSE_av),'-');
+plot(1:K-delay,10*log10(abs(MSE_av)),'-k');
+title('Learning Curve for MSE');
+xlabel('Number of iterations, k'); ylabel('MSE [dB]');
+% semilogy(1:K-delay,abs(MSE_av),'-');
 grid on;
+grid minor
+
