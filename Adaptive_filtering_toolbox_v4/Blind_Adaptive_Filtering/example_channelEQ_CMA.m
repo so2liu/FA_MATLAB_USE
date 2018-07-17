@@ -101,7 +101,8 @@ ylabel('quadrature-phase');
 figure(2);
 plot(cos(thetaVector),sin(thetaVector),'r-','LineWidth',1);
 hold on;
-plot(real(equalizerInputVector),imag(equalizerInputVector),'bx');
+plot(real(equalizerInputVector),imag(equalizerInputVector),'k.');
+plot(real(equalizerOutputVector),imag(equalizerOutputVector),'bx');
 plot(real(constellation),imag(constellation),'ro',...
          'MarkerSize',10,'LineWidth',3);
 hold off;
