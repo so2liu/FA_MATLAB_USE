@@ -9,7 +9,7 @@ MSE = zeros(iteration, ensemble);
 GainIm = 5; % in dB
 PhaseIm = 5; % in degree
 % AWGN
-PowerAWGN = -20;
+PowerAWGN = -20; % in dB 0
 % Channel Distortion
 H = [1.1 + j*0.5, 0.1-j*0.3, -0.2-j*0.1]; % 3 Taps
 % Phase Noise
