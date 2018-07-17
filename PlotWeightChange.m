@@ -12,3 +12,9 @@ grid on
 grid minor
 xlabel('Iteration');
 ylabel('Weight Vector Change');
+
+leg = [];
+for k=1:size(p,1)
+  leg{k}=sprintf('Weight No. %d',k);
+end
+legend(leg);
