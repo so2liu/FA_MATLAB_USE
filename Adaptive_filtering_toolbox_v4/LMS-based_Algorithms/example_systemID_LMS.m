@@ -47,12 +47,10 @@ for l=1:ensemble,
     n        = sqrt(sigma_n2/2)*(randn(K,1)+j*randn(K,1));       % complex noise
 
     for k=1:K,
-
         X       =   [x(k,1)
                      X(1:(N-1),1)];              % input signal (tapped delay line)
 
         d(k)    =   (Wo'*X(:,1))+n(k);           % desired signal
-
     end
 
     S   =   struct('step',mu,'filterOrderNo',(N-1),'initialCoefficients',W(:,1,l));

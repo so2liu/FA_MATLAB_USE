@@ -1,33 +1,22 @@
-% Set up parameters and signals.
-M = 64; % Alphabet size for modulation
-msg = randi([0 M-1],1500,1); % Random message
-hMod = comm.RectangularQAMModulator(M);
-modmsg = step(hMod,msg); % Modulate using QPSK.
-trainlen = 500; % Length of training sequence
-chan = [.986; .845; .237; .123+.31i]; % Channel coefficients
-filtmsg = filter(chan,1,modmsg); % Introduce channel distortion.
+% w1 = w(1,1:end-1);
+% w2 = w(1,2:end);
+% p1 = [real(w1) imag(w1)];                         % First Point
+% p2 = [real(w2) imag(w2)];                         % Second Point
+% dp = p2-p1;                         % Difference
+% 
+% figure(1)
+% quiver(p1,p2,dp,0)
+% grid
+% axis([-10  10    -10  10])
+% text(p1(1),p1(2), sprintf('(%.0f,%.0f)',p1))
+% text(p2(1),p2(2), sprintf('(%.0f,%.0f)',p2))
 
-% Equalize the received signal.
-eq1 = lineareq(8, lms(0.01)); % Create an equalizer object.
-eq1.SigConst = step(hMod,(0:M-1)')'; % Set signal constellation.
-[symbolest,yd] = equalize(eq1,filtmsg,modmsg(1:trainlen)); % Equalize.
+% arrowPlot(real(w(1,:)), imag(w(1,:)))
 
-% Plot signals.
-h = scatterplot(filtmsg,1,trainlen,'bx'); hold on;
-scatterplot(symbolest,1,trainlen,'g.',h);
-scatterplot(eq1.SigConst,1,0,'k*',h);
-legend('Filtered signal','Equalized signal',...
-   'Ideal signal constellation');
-hold off;
 
-% Compute error rates with and without equalization.
-hDemod = comm.QPSKDemodulator('PhaseOffset',0);
-demodmsg_noeq = step(hDemod,filtmsg); % Demodulate unequalized signal.
-demodmsg = step(hDemod,yd); % Demodulate detected signal from equalizer.
-hErrorCalc = comm.ErrorRate; % ErrorRate calculator
-ser_noEq = step(hErrorCalc, ...
-    msg(trainlen+1:end), demodmsg_noeq(trainlen+1:end));
-reset(hErrorCalc)
-ser_Eq = step(hErrorCalc, msg(trainlen+1:end),demodmsg(trainlen+1:end));
-disp('Symbol error rates with and without equalizer:')
-disp([ser_Eq(1) ser_noEq(1)])
+% plot_dir(transpose(real(w(1,:))), transpose(imag(w(1,:))))
+figure
+% arrowPlot(real(w(4,:)), imag(w(4,:)), 'number', 5, 'color', 'k', 'LineWidth', 1, 'scale', 1.4, 'ratio', 'equal')
+plot(real(w(2,:)), imag(w(2,:)))
+grid on
+grid minor
