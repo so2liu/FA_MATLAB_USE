@@ -70,7 +70,6 @@ prefixedInput           =   [randn(nCoefficients-1,1)
 
 %   Body
 for it = 1:nIterations,
-
     regressor                   =   prefixedInput(it+(nCoefficients-1):-1:it,1);
 
     outputVector(it,1)          =   regressor.'*coefficientVector(:,it);
@@ -82,7 +81,6 @@ for it = 1:nIterations,
 
     coefficientVector(:,it+1)   =   coefficientVector(:,it)-...
                                     (S.step*errorVector(it,1)*conj(regressor));
-
 end
 outputVector = conv(input, fliplr(coefficientVector(:,end)), 'same');
 %   EOF

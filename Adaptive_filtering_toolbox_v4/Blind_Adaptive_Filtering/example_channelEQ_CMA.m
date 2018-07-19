@@ -19,16 +19,17 @@
 %     Adaptive Algorithm used here: CMA                                         %
 %                                                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+MSE_total=zeros(3999, 6); % only for drawing figures of different N
+for numberofco = 11
 
 %   Definitions:
-ensemble      = 100;                          % number of realizations within the ensemble
-K             = 10000;                         % number of iterations
+ensemble      = 1;                          % number of realizations within the ensemble
+K             = 4000;                         % number of iterations
 Ksim          = 400;                          % number of iterations used to simulate the resulting system
 H             = [1.1 + j*0.5, 0.1-j*0.3, -0.2-j*0.1]; % Channel taps
 sigma_x2      = 1;                            % transmitted-signal power
 sigma_n2      = 10^(-2.5);                    % noise power
-N             = 5;                            % number of coefficients of the adaptive filter
+N             = numberofco;                            % number of coefficients of the adaptive filter
 mu            = 0.001;                          % convergence factor (step)  (0 < mu < 1)
 delay         = 1;                            % the desired signals are delayed versions of the pilot symbols
 constellation = qammod(0:3, 4)/sqrt(2);       % symbols from 4-QAM constellation
@@ -71,7 +72,7 @@ end
 %   Averaging:
 W_av = sum(W,3)/ensemble;
 MSE_av = sum(MSE,2)/ensemble;
-
+MSE_total(:,(numberofco+1)/2)=MSE_av;
 
 % Simulating the system                
 
@@ -79,8 +80,12 @@ inputMatrix           = randsrc(N+length(H)-1, Ksim,...
                                 constellation);
 noiseMatrix           = sqrt(sigma_n2)*wgn(N,Ksim,0,'complex');
 equalizerInputVector  = HMatrix*inputMatrix + noiseMatrix;
+tic;
 equalizerOutputVector = (W_av(:,end)')*equalizerInputVector;
+toc;
 equalizerOutputVectorWiener = Wiener.'*equalizerInputVector;
+end
+PlotMSEinDifferentTap(MSE_total)
 
 % Presentation
 close all;
