@@ -79,7 +79,9 @@ inputMatrix           = randsrc(N+length(H)-1, Ksim,...
                                 constellation);
 noiseMatrix           = sqrt(sigma_n2)*wgn(N,Ksim,0,'complex');
 equalizerInputVector  = HMatrix*inputMatrix + noiseMatrix;
+tic
 equalizerOutputVector = (W_av(:,end)')*equalizerInputVector;
+toc
 equalizerOutputVectorWiener = Wiener.'*equalizerInputVector;
 
 % Presentation
