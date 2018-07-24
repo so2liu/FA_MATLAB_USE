@@ -4,6 +4,10 @@ M = 16;
 N = 1024;
 original_signal = gendata(N, M, 'QAM');
 data_svm4 = qamdemod(original_signal, M);
+% color  = [230,97,1; 253,184,99; 178,171,210; 94,60,153];
+color_background = [141,211,199; 255,255,179;190,186,218;251,128,114;128,177,211;
+         253,180,98;179,222,105;252,205,229;217,217,217;188,128,189;
+         204,235,197;255,237,111]/256;
 %% data with impairments
 distorted_data = original_signal;
 
@@ -25,7 +29,9 @@ theta = 30; % to rotate 90 counterclockwise
 R = [cosd(theta) -sind(theta); sind(theta) cosd(theta)];
 X = [real(distorted_data), imag(distorted_data)];
 X = X*R;
-gscatter(X(:,1), X(:,2), data_svm4);
+gscatter(X(:,1), X(:,2), data_svm4, 'k');
+grid on
+grid minor
 %% SVM
 Y = cellstr(num2str(data_svm4));
 
@@ -75,12 +81,15 @@ end
 % corresponding new observation belongs.
 
 figure
-color = rand(16,3);
+% color = rand(16,3);
+
+
+
 % color = [0.1 0.5 0.5; 0.5 0.1 0.5; 0.5 0.5 0.1];
 % color = [0.1 0.5 0.5; 0.5 0.1 0.5; 0.5 0.5 0.1;...
 %         0.1 0.5 0.5; 0.5 0.1 0.5; 0.5 0.5 0.1;...
 %         0.1 0.5 0.5; 0.5 0.1 0.5; 0.5 0.5 0.1];
-h(1:numel(classes)) = gscatter(xGrid(:,1),xGrid(:,2),maxScore, color);
+h(1:numel(classes)) = gscatter(xGrid(:,1),xGrid(:,2),maxScore, color_background);
 hold on
 h(numel(classes)+1:2*numel(classes)) = gscatter(X(:,1),X(:,2),Y);
 title('{\bf SVM Training Result}');
