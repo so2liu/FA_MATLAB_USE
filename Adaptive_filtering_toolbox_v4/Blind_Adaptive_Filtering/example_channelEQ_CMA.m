@@ -23,14 +23,14 @@ MSE_total=zeros(3999, 6); % only for drawing figures of different N
 for numberofco = 11
 
 %   Definitions:
-ensemble      = 1;                          % number of realizations within the ensemble
+ensemble      = 100;                          % number of realizations within the ensemble
 K             = 4000;                         % number of iterations
 Ksim          = 400;                          % number of iterations used to simulate the resulting system
 H             = [1.1 + j*0.5, 0.1-j*0.3, -0.2-j*0.1]; % Channel taps
 sigma_x2      = 1;                            % transmitted-signal power
 sigma_n2      = 10^(-2.5);                    % noise power
 N             = numberofco;                            % number of coefficients of the adaptive filter
-mu            = 0.001;                          % convergence factor (step)  (0 < mu < 1)
+mu            = 0.003;                          % convergence factor (step)  (0 < mu < 1)
 delay         = 1;                            % the desired signals are delayed versions of the pilot symbols
 constellation = qammod(0:3, 4)/sqrt(2);       % symbols from 4-QAM constellation
 HMatrix       = toeplitz([H(1) zeros(1,N-1)],[H zeros(1,N-1)]); % Toeplitz channel matrix
@@ -80,18 +80,16 @@ inputMatrix           = randsrc(N+length(H)-1, Ksim,...
                                 constellation);
 noiseMatrix           = sqrt(sigma_n2)*wgn(N,Ksim,0,'complex');
 equalizerInputVector  = HMatrix*inputMatrix + noiseMatrix;
-<<<<<<< HEAD
 tic
 equalizerOutputVector = (W_av(:,end)')*equalizerInputVector;
 toc
-=======
+
 tic;
 equalizerOutputVector = (W_av(:,end)')*equalizerInputVector;
 toc;
->>>>>>> 441568c74ba6a88fceec80177307e5b9fbfa3a3a
 equalizerOutputVectorWiener = Wiener.'*equalizerInputVector;
 end
-PlotMSEinDifferentTap(MSE_total)
+% PlotMSEinDifferentTap(MSE_total)
 
 % Presentation
 close all;
