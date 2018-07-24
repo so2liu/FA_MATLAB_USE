@@ -4,8 +4,6 @@ ensemble = 1;
 Length = 1e5;
 iteration = Length;
 N = 16; % If N > 16, filter isn't probably stable anymore
-N = 16; % If N > 16, filter isn't stable anymore
-N = 8; % If N > 16, filter isn't stable anymore
 MSE = zeros(iteration, ensemble);
 % IQ Imbalance Parameters
 GainIm = 2.5; % in dB if N >= 16, GainIm max is 2.5, otherweise divergence
@@ -62,6 +60,5 @@ PlotMSEindB(MSE_av);
 w(end)
 mag2db(abs(imag(w(end))/real(w(end))))
 atan(imag(w(end))/real(w(end)))/pi*180
-save('C:\Users\Liu Yang\Documents\GitHub\FA\MyFA\Data\dirtorted_16QAM', 'y_desired', 'dirty_x');
 
 save('x_record.mat', 'x_record', 'y_desired');
