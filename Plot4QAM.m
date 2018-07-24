@@ -7,7 +7,7 @@ figure(2);
 plot(cos(thetaVector),sin(thetaVector),'r-','LineWidth',1);
 hold on;
 plot(real(input),imag(input),'bx');
-plot(real(dirty_x),imag(dirty_x),'k.');
+% plot(real(dirty_x),imag(dirty_x),'k.');
 plot(real(constellation),imag(constellation),'ro',...
          'MarkerSize',10,'LineWidth',3);
 hold off;
