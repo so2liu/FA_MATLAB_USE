@@ -1,6 +1,6 @@
 close all; clear;
 %% generate data w/o impairment
-M = 8;
+M = 16;
 N = 1024;
 original_signal = gendata(N, M, 'QAM');
 data_svm4 = qamdemod(original_signal, M);
@@ -90,7 +90,7 @@ color = rand(16,3);
 %         0.1 0.5 0.5; 0.5 0.1 0.5; 0.5 0.5 0.1];
 h(1:numel(classes)) = gscatter(xGrid(:,1),xGrid(:,2),maxScore, color_background);
 hold on
-h(numel(classes)+1:2*numel(classes)) = gscatter(X(:,1),X(:,2),Y);
+h(numel(classes)+1:2*numel(classes)) = gscatter(X(:,1),X(:,2),Y, 'k');
 title('{\bf SVM Training Result}');
 xlabel('In-Phase');
 ylabel('Quadrature');

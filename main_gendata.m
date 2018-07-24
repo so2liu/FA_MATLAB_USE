@@ -3,11 +3,11 @@ clear;close all
 ensemble = 1;
 Length = 1e5;
 iteration = Length;
-N = 8; % If N > 16, filter isn't stable anymore
+N = 16; % If N > 16, filter isn't probably stable anymore
 MSE = zeros(iteration, ensemble);
 % IQ Imbalance Parameters
-GainIm = 5; % in dB
-PhaseIm = 20; % in degree
+GainIm = 2.5; % in dB if N >= 16, GainIm max is 2.5, otherweise divergence
+PhaseIm = 10; % in degree
 real_iqim = 10^(0.5*GainIm/20)*exp(-i*0.5*PhaseIm*pi/180)
 imag_iqim = 10^(-0.5*GainIm/20)*exp(i*0.5*PhaseIm*pi/180)
 % AWGN

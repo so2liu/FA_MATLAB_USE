@@ -4,9 +4,9 @@ M = 16;
 N = 1024;
 original_signal = gendata(N, M, 'QAM');
 data_svm4 = qamdemod(original_signal, M);
-load('x_record.mat');
-original_signal = x_record(1:1024,2);
-
+color_background = [141,211,199; 255,255,179;190,186,218;251,128,114;128,177,211;
+         253,180,98;179,222,105;252,205,229;217,217,217;188,128,189;
+         204,235,197;255,237,111]/256;
 %% data with impairments
 distorted_data = original_signal;
 
@@ -29,6 +29,11 @@ R = [cosd(theta) -sind(theta); sind(theta) cosd(theta)];
 X = [real(distorted_data), imag(distorted_data)];
 X = X*R;
 gscatter(X(:,1), X(:,2), data_svm4);
+%%
+load('x_record.mat');
+X = [real(x_record(1025:2048,2)), imag(x_record(1025:2048,2))];
+data_svm4 = qamdemod(y_desired(1025:2048,1), M);
+
 %% SVM
 Y = cellstr(num2str(data_svm4));
 
@@ -83,9 +88,9 @@ color = rand(16,3);
 % color = [0.1 0.5 0.5; 0.5 0.1 0.5; 0.5 0.5 0.1;...
 %         0.1 0.5 0.5; 0.5 0.1 0.5; 0.5 0.5 0.1;...
 %         0.1 0.5 0.5; 0.5 0.1 0.5; 0.5 0.5 0.1];
-h(1:numel(classes)) = gscatter(xGrid(:,1),xGrid(:,2),maxScore, color);
+h(1:numel(classes)) = gscatter(xGrid(:,1),xGrid(:,2),maxScore, color_background);
 hold on
-h(numel(classes)+1:2*numel(classes)) = gscatter(X(:,1),X(:,2),Y);
+h(numel(classes)+1:2*numel(classes)) = gscatter(X(:,1),X(:,2),Y, '');
 title('{\bf SVM Training Result}');
 xlabel('In-Phase');
 ylabel('Quadrature');
