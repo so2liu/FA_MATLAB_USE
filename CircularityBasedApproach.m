@@ -1,6 +1,9 @@
 % used by test_LMSandIQCompensator
 function [compSig, error, w_v] = CircularityBasedApproach(input, order, stepSize, iteration) 
 %%
+if size(input, 1)<size(input, 2)
+    input =  transpose(input);
+end
 w_v = rand(order, iteration-order+2);
 y_v = zeros(order, 1);
 M = ones(order)*stepSize;

@@ -1,5 +1,5 @@
 function Plot4QAM(input, dirty_x)
-
+dirty_x = dirty_x./mean(abs(dirty_x));
 thetaVector = -pi:0.1:pi;
 constellation = qammod(0:3, 4)/sqrt(2);       % symbols from 4-QAM constellation
 MAX = max(max(real(dirty_x)),max(real(dirty_x)));
