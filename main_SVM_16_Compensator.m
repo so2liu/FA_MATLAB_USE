@@ -2,36 +2,36 @@ close all; clear;
 %% generate data w/o impairment
 M = 16;
 N = 1024;
-original_signal = gendata(N, M, 'QAM');
-data_svm4 = qamdemod(original_signal, M);
+% original_signal = gendata(N, M, 'QAM');
+% data_svm4 = qamdemod(original_signal, M);
 color_background = [141,211,199; 255,255,179;190,186,218;251,128,114;128,177,211;
          253,180,98;179,222,105;252,205,229;217,217,217;188,128,189;
          204,235,197;255,237,111]/256;
-%% data with impairments
-distorted_data = original_signal;
-
-% Phase Noise
-pnoise = comm.PhaseNoise('Level',-40,'FrequencyOffset',20);
-distorted_data = step(pnoise, distorted_data);
-
-% IQ Imbalance
-% distorted_data = iqimbal(distorted_data, 30, 10);
-
-% Multipath
-% H = [0.32+0.21*1j,-0.3+0.7*1j].';
-% H = H/mean(abs(H));
-% distorted_data = conv(H, distorted_data);
-% distorted_data = distorted_data(length(distorted_data)-N:length(distorted_data));
-
-% Rotation
-theta = 30; % to rotate 90 counterclockwise
-R = [cosd(theta) -sind(theta); sind(theta) cosd(theta)];
-X = [real(distorted_data), imag(distorted_data)];
-X = X*R;
-gscatter(X(:,1), X(:,2), data_svm4);
+% %% data with impairments
+% distorted_data = original_signal;
+% 
+% % Phase Noise
+% pnoise = comm.PhaseNoise('Level',-40,'FrequencyOffset',20);
+% distorted_data = step(pnoise, distorted_data);
+% 
+% % IQ Imbalance
+% % distorted_data = iqimbal(distorted_data, 30, 10);
+% 
+% % Multipath
+% % H = [0.32+0.21*1j,-0.3+0.7*1j].';
+% % H = H/mean(abs(H));
+% % distorted_data = conv(H, distorted_data);
+% % distorted_data = distorted_data(length(distorted_data)-N:length(distorted_data));
+% 
+% % Rotation
+% theta = 30; % to rotate 90 counterclockwise
+% R = [cosd(theta) -sind(theta); sind(theta) cosd(theta)];
+% X = [real(distorted_data), imag(distorted_data)];
+% X = X*R;
+% gscatter(X(:,1), X(:,2), data_svm4);
 %%
 load('x_record.mat');
-X = [real(x_record(1025:2048,2)), imag(x_record(1025:2048,2))];
+X = [real(x_record(1025:2048,6)), imag(x_record(1025:2048,6))];
 data_svm4 = qamdemod(y_desired(1025:2048,1), M);
 
 %% SVM
@@ -42,7 +42,7 @@ classes = unique(Y);
 rng(1); % For reproducibility
 SVMModels = cell(numel(classes),1);
 
-for j = 1:numel(classes);
+for j = 1:numel(classes)
     indx = strcmp(Y,classes(j)); % Create binary classes for each classifier
     SVMModels{j} = fitcsvm(X,indx,...
         'ClassNames',[false true],'Standardize',true,...
