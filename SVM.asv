@@ -1,0 +1,35 @@
+function x_svm = SVM(x, x_ref, M)
+	N = 1024;
+    N_train = 1024;
+    x_test = [real(x(100:end-100, 1)), imag(x(100:end-100, 1))];
+    x_test_ref = qamdemod(x_ref(100:end-100, 1));
+    x_train = [real(x(128:128+N_train-1,1)), imag(x(128:128+N_train-1,1))];
+	x_train_ref = qamdemod(x_ref(128:128+1023,1), M);
+    Y = cellstr(num2str(x_train_ref));  % Label for train set
+
+    tic;
+    N_class = unique(Y);
+    rng(1); % For reproducibility
+    SVMModels = cell(numel(N_class),1);
+
+    for j = 1:numel(N_class)
+        indx = strcmp(Y,N_class(j)); % Create binary classes for each classifier
+        SVMModels{j} = fitcsvm(x_train,indx,...
+            'ClassNames',[false true],'Standardize',true,...
+            'KernelFunction','rbf','BoxConstraint',3,...
+            'KernelScale', 0.5);
+    end
+    toc;
+    score = zeros(length(x_test),numel(N_class));
+    for j = 1:numel(N_class)
+        [~,score_temp] = predict(SVMModels{j},[real(x_test), imag(x_test)] );
+        score(:,j) = score_temp(:,2); % Second column contains positive-class scores
+    end
+    
+    [~,max_score_index] = max(score,[],2); % max_score_index is the index with largest score
+    x_svm = max_score_index;
+
+
+    
+    
+    

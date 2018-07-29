@@ -1,9 +1,9 @@
-function Y_knn = AddKNNClassifier(X, Y)
+function [Y_knn, symbol_error_rate] = AddKNNClassifier(X, Y)
 if size(X,1)<size(X,2)
     X = transpose(X);
 end
 
-TRAIN_N = 320;
+TRAIN_N = 1000;
 KNN_N = 3;
 x_train = X(1:TRAIN_N);
 y_train = Y(1:TRAIN_N);
@@ -17,4 +17,4 @@ for k = 1:length(Y_knn)
     Y_knn(k) = str2num(cell2mat(Y_knn_label(k)));
 end
 % Y_knn = str2num(cell2mat(Y_knn_label));
-symbol_error_rate = size(find(Y_knn-Y ~= 0), 1)/length(Y)
+symbol_error_rate = size(find(Y_knn-Y ~= 0), 1)/length(Y);
